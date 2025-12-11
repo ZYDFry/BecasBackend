@@ -1,7 +1,7 @@
 1. REGISTRO DE USUARIO (Auth)
 (Basado en tu UsuarioEntity)
 
-URL: http://localhost:8080/api/auth/registro
+URL: http://localhost:8090/api/auth/registro
 
 JSON:
 
@@ -15,7 +15,7 @@ JSON
 2. LOGIN (Auth)
 (Para obtener el Token)
 
-URL: http://localhost:8080/api/auth/login
+URL: http://localhost:8090/api/auth/login
 
 JSON:
 
@@ -28,7 +28,7 @@ JSON
 3. CREAR BECA (Admin)
 (Necesario para tener un idBeca. Basado en tu BecaEntity)
 
-URL: http://localhost:8080/api/becas
+URL: http://localhost:8090/api/becas
 
 JSON:
 
@@ -44,7 +44,7 @@ JSON
 4. POSTULAR (Estudiante)
 (Basado estrictamente en tu PostulacionDTO y PostulacionEntity que me pasaste. Solo notas e ingresos).
 
-URL: http://localhost:8080/api/postulaciones/aplicar
+URL: http://localhost:8090/api/postulaciones/aplicar
 
 JSON:
 
@@ -60,7 +60,7 @@ Nota: Si quitaste los campos de URL de archivos de tu entidad, este es el JSON e
 5. EVALUAR (Admin)
 (Para aprobar o rechazar)
 
-URL: http://localhost:8080/api/postulaciones/admin/evaluar/1
+URL: http://localhost:8090/api/postulaciones/admin/evaluar/1
 
 Params (Query Params en Postman):
 
@@ -73,7 +73,7 @@ Este endpoint no requiere enviar nada, solo estar logueado como Admin.
 
 Método: GET
 
-URL: http://localhost:8080/api/postulaciones/admin/ranking
+URL: http://localhost:8090/api/postulaciones/admin/ranking
 
 Auth: Token del usuario admin.
 
@@ -100,7 +100,7 @@ El estudiante consulta cómo va su trámite.
 
 Método: GET
 
-URL: http://localhost:8080/api/postulaciones/mis-solicitudes
+URL: http://localhost:8090/api/postulaciones/mis-solicitudes
 
 Auth: Token del usuario alumno1 (Carlos Perez).
 
