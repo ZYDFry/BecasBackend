@@ -12,6 +12,8 @@ JSON
     "password": "123",
     "nombreCompleto": "Carlos Perez"
 }
+
+
 2. LOGIN (Auth)
 (Para obtener el Token)
 
@@ -25,8 +27,8 @@ JSON
     "username": "alumno1",
     "password": "123"
 }
+
 3. CREAR BECA (Admin)
-(Necesario para tener un idBeca. Basado en tu BecaEntity)
 
 URL: http://localhost:8090/api/becas
 
@@ -41,12 +43,12 @@ JSON
     "fechaFin": "2025-12-31",
     "activa": true
 }
+
+
 4. POSTULAR (Estudiante)
-(Basado estrictamente en tu PostulacionDTO y PostulacionEntity que me pasaste. Solo notas e ingresos).
 
 URL: http://localhost:8090/api/postulaciones/aplicar
 
-JSON:
 
 JSON
 
@@ -55,18 +57,18 @@ JSON
     "promedioNotas": 16.5,
     "ingresosFamiliares": 950.00
 }
-Nota: Si quitaste los campos de URL de archivos de tu entidad, este es el JSON exacto que debes enviar.
 
 5. EVALUAR (Admin)
-(Para aprobar o rechazar)
+(Para aprobar o rechazar) por el postulacionID?estado=APROBADO/RECHAZADO
 
-URL: http://localhost:8090/api/postulaciones/admin/evaluar/1
+URL: http://localhost:8090/api/postulaciones/admin/evaluar/1?estado=APROBADO
 
 Params (Query Params en Postman):
 
 KEY: estado
 
-VALUE: APROBADO
+VALUE: APROBADO/RECHAZADO
+
 
 6. VER RANKING (Admin)
 Este endpoint no requiere enviar nada, solo estar logueado como Admin.
@@ -77,9 +79,8 @@ URL: http://localhost:8090/api/postulaciones/admin/ranking
 
 Auth: Token del usuario admin.
 
-Body: (Dejar vacío / none).
 
-Lo que recibirás (Response JSON): (Fíjate que incluye el campo puntaje que calculamos).
+Lo que recibirás (Response JSON):
 
 JSON
 
@@ -103,8 +104,6 @@ Método: GET
 URL: http://localhost:8090/api/postulaciones/mis-solicitudes
 
 Auth: Token del usuario alumno1 (Carlos Perez).
-
-Body: (Dejar vacío / none).
 
 Lo que recibirás (Response JSON):
 
