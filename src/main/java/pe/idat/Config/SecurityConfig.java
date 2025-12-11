@@ -22,6 +22,13 @@ public class SecurityConfig {
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
+                // Solo Admin puede crear (POST) o borrar (DELETE) becas
+                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/becas/**").hasRole("ADMIN")
+                .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/becas/**").hasRole("ADMIN")
+    
+                // Cualquiera puede ver las becas activas
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/becas/**").permitAll()
+                // Solo Admin puede ver todas las becas (incluso cerradas)
                 .requestMatchers("/api/postulaciones/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/postulaciones/**").hasAnyRole("ESTUDIANTE", "ADMIN")
                 .anyRequest().authenticated()
