@@ -10,4 +10,5 @@ public class PostulacionResponseDTO {
     private Double ingresosFamiliares;
     private String estado;
     private java.time.LocalDateTime fechaPostulacion;
+    private Double puntaje;
 }

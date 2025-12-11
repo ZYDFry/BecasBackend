@@ -8,25 +8,35 @@ import pe.idat.Entity.PostulacionEntity;
 @Component
 public class PostulacionMapper {
 
-    // INPUT: DTO -> Entity
+    // De DTO a Entidad (Registro)
     public PostulacionEntity toEntity(PostulacionDTO dto) {
         PostulacionEntity entity = new PostulacionEntity();
         entity.setPromedioNotas(dto.getPromedioNotas());
         entity.setIngresosFamiliares(dto.getIngresosFamiliares());
+        // El puntaje NO se mapea aquí, lo calcula el Service
         return entity;
     }
 
-    // OUTPUT: Entity -> ResponseDto
+    // De Entidad a ResponseDTO (Listado/Ranking)
     public PostulacionResponseDTO toResponseDTO(PostulacionEntity entity) {
         PostulacionResponseDTO dto = new PostulacionResponseDTO();
         dto.setId(entity.getId());
+        
+        // Mapeo seguro de relaciones
+        if (entity.getEstudiante() != null) {
+            dto.setNombreEstudiante(entity.getEstudiante().getNombreCompleto());
+        }
+        if (entity.getBeca() != null) {
+            dto.setNombreBeca(entity.getBeca().getNombre());
+        }
+
         dto.setPromedioNotas(entity.getPromedioNotas());
         dto.setIngresosFamiliares(entity.getIngresosFamiliares());
         dto.setEstado(entity.getEstado());
         dto.setFechaPostulacion(entity.getFechaPostulacion());
         
-        if (entity.getBeca() != null) dto.setNombreBeca(entity.getBeca().getNombre());
-        if (entity.getEstudiante() != null) dto.setNombreEstudiante(entity.getEstudiante().getNombreCompleto());
+        // --- IMPORTANTE: MAPEAR EL PUNTAJE ---
+        dto.setPuntaje(entity.getPuntaje());
         
         return dto;
     }

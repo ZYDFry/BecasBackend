@@ -18,7 +18,9 @@ public class PostulacionEntity {
     
     private String estado; // APROBADO, RECHAZADO, PENDIENTE
     private LocalDateTime fechaPostulacion;
-
+    //Ranking
+    private Double puntaje;
+    
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private UsuarioEntity estudiante;
