@@ -1,8 +1,13 @@
 package pe.idat.Controller;
 
+import java.time.LocalDateTime;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
 import pe.idat.DTO.BecaDTO;
 import pe.idat.Service.BecaService;
 
@@ -15,8 +20,14 @@ public class BecaController {
 
     // 1. CREAR BECA (Solo Admin)
     @PostMapping
-    public ResponseEntity<?> crear(@RequestBody BecaDTO dto) {
-        return ResponseEntity.ok(becaService.guardarBeca(dto));
+    public ResponseEntity<?> crear(@Valid @RequestBody BecaDTO dto) {
+    	var becaGuardada = becaService.guardarBeca(dto); 
+        return ResponseEntity.ok(Map.of(
+                "status", 200,
+                "mensaje", "Convocatoria creada exitosamente",
+                "datos", becaGuardada,
+                "fecha", LocalDateTime.now()
+            ));
     }
 
     // 2. LISTAR ACTIVAS (Público / Estudiantes)
@@ -35,6 +46,10 @@ public class BecaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
         becaService.eliminarBeca(id);
-        return ResponseEntity.ok("Beca eliminada");
+        return ResponseEntity.ok(Map.of(
+                "status", 200,
+                "mensaje", "Beca eliminada correctamente",
+                "fecha", LocalDateTime.now()
+            ));
     }
 }

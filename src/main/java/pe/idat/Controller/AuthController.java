@@ -2,6 +2,8 @@ package pe.idat.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
 import pe.idat.DTO.*;
 import pe.idat.Service.AuthService;
 
@@ -9,6 +11,8 @@ import pe.idat.Service.AuthService;
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired private AuthService service;
-    @PostMapping("/login") public ResponseEntity<?> login(@RequestBody AuthRequestDTO dto) { return ResponseEntity.ok(service.login(dto)); }
-    @PostMapping("/registro") public ResponseEntity<?> registro(@RequestBody RegistroUsuarioDTO dto) { return ResponseEntity.ok(service.registrarEstudiante(dto)); }
+    @PostMapping("/login") 
+    public ResponseEntity<?> login(@Valid @RequestBody AuthRequestDTO dto) { return ResponseEntity.ok(service.login(dto)); }
+    @PostMapping("/registro") 
+    public ResponseEntity<?> registro(@Valid @RequestBody RegistroUsuarioDTO dto) { return ResponseEntity.ok(service.registrarEstudiante(dto)); }
 }
