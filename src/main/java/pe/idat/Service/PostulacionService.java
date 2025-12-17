@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pe.idat.DTO.*;
 import pe.idat.Entity.*;
+import pe.idat.Exceptions.RecursoNoEncontradoException;
+import pe.idat.Exceptions.ReglaNegocioException;
 import pe.idat.Mapper.PostulacionMapper;
 import pe.idat.Repository.*;
 
@@ -27,16 +29,16 @@ public class PostulacionService {
         
         // --- A. Validaciones Previas ---
         UsuarioEntity estudiante = usuarioRepo.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Usuario no encontrado: " + username));
         
         BecaEntity beca = becaRepo.findById(dto.getIdBeca())
-                .orElseThrow(() -> new RuntimeException("Beca no encontrada"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Beca no encontrada con ID: " + dto.getIdBeca()));
 
         // Validar Fechas (Usamos LocalDate porque la beca tiene fechas simples)
         LocalDate hoy = LocalDate.now();
-        if (hoy.isBefore(beca.getFechaInicio())) throw new RuntimeException("La convocatoria aún no inicia.");
-        if (hoy.isAfter(beca.getFechaFin())) throw new RuntimeException("La convocatoria ya cerró.");
-        if (!beca.getActiva()) throw new RuntimeException("La beca está inactiva.");
+        if (hoy.isBefore(beca.getFechaInicio())) throw new ReglaNegocioException("La convocatoria aún no inicia.");
+        if (hoy.isAfter(beca.getFechaFin())) throw new ReglaNegocioException("La convocatoria ya cerró.");
+        if (!beca.getActiva()) throw new ReglaNegocioException("La beca está inactiva.");
 
         // --- B. Mapeo de Datos ---
         PostulacionEntity post = mapper.toEntity(dto);
@@ -100,11 +102,11 @@ public class PostulacionService {
     // =========================================================
     public String evaluarPostulacion(Long idPostulacion, String nuevoEstado) {
         PostulacionEntity post = postulacionRepo.findById(idPostulacion)
-                .orElseThrow(() -> new RuntimeException("Postulación no encontrada"));
+                .orElseThrow(() -> new RecursoNoEncontradoException("Postulación no encontrada"));
 
         // Solo permitimos estados finales válidos
         if (!nuevoEstado.equals("APROBADO") && !nuevoEstado.equals("RECHAZADO")) {
-            throw new RuntimeException("Estado inválido. Use APROBADO o RECHAZADO.");
+            throw new ReglaNegocioException("Estado inválido. Use APROBADO o RECHAZADO.");
         }
 
         post.setEstado(nuevoEstado);

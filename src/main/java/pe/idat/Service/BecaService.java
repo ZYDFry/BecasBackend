@@ -6,6 +6,8 @@ import pe.idat.DTO.BecaDTO;
 import pe.idat.Entity.BecaEntity;
 import pe.idat.Repository.BecaRepository;
 import java.util.List;
+import pe.idat.Exceptions.RecursoNoEncontradoException;
+import pe.idat.Exceptions.ReglaNegocioException;
 
 @Service
 public class BecaService {
@@ -34,7 +36,7 @@ public class BecaService {
         // Si viene ID, es una edición
         if (dto.getId() != null) {
             beca = becaRepo.findById(dto.getId())
-                    .orElseThrow(() -> new RuntimeException("Beca no encontrada"));
+                    .orElseThrow(() -> new RecursoNoEncontradoException("Beca no encontrada"));
         }
 
         beca.setNombre(dto.getNombre());

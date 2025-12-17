@@ -10,7 +10,8 @@ import pe.idat.Entity.*;
 import pe.idat.Repository.*;
 import pe.idat.Security.JWTUtil;
 import java.util.Collections;
-
+import pe.idat.Exceptions.RecursoNoEncontradoException;
+import pe.idat.Exceptions.ReglaNegocioException;
 @Service
 public class AuthService {
 
@@ -32,7 +33,7 @@ public class AuthService {
     // REGISTRO: Crea usuario estudiante con clave encriptada
     public String registrarEstudiante(RegistroUsuarioDTO dto) {
         if (usuarioRepo.existsByUsername(dto.getUsername())) {
-            throw new RuntimeException("Error: El usuario ya existe");
+            throw new ReglaNegocioException("Error: El usuario ya existe");
         }
 
         UsuarioEntity usuario = new UsuarioEntity();
@@ -43,7 +44,7 @@ public class AuthService {
 
         // Asignar rol por defecto
         RolEntity rolEstudiante = rolRepo.findByNombre("ROLE_ESTUDIANTE")
-                .orElseThrow(() -> new RuntimeException("Error: Rol no encontrado. Ejecuta el script SQL."));
+                .orElseThrow(() -> new ReglaNegocioException("Error: Rol no encontrado. Ejecuta el script SQL."));
         
         usuario.setRoles(Collections.singletonList(rolEstudiante));
 
